@@ -14,9 +14,10 @@ html,body{height:100%;overflow:hidden;}
 #container{height:100%;}
 </style>
 <script src='./assets/zepto.min.js'></script>
-<script src='//api.map.baidu.com/api?v=3.0&ak=Rjs1Sww9UtZdZ4NwC6jCXUPRWiOYavgX'></script>
+<script src='http://api.map.baidu.com/api?v=3.0&ak=Rjs1Sww9UtZdZ4NwC6jCXUPRWiOYavgX'></script>
 <script type="text/javascript">  
     var AK = 'Rjs1Sww9UtZdZ4NwC6jCXUPRWiOYavgX';
+    var prefix = 'http:';
     $(function(){
         var map = new BMap.Map("container");            // 创建地图实例  
         var point = new BMap.Point(116.404, 39.915);    // 创建点坐标  
@@ -33,22 +34,21 @@ html,body{height:100%;overflow:hidden;}
                 map.panTo(r.point);
             }else{
                 var myCity = new BMap.LocalCity();
-                myCity.get(function(ret){
+                myCity.get(function(ret){   
                     var cityName = ret && ret.name || '';
                     if(cityName) map.setCenter(cityName);
                     else ip2location()
                 });  
-
             }    
         });
         function ip2location(){
-            $.get('//api.map.baidu.com/location/ip?ak='+AK+'&coor=bd09ll',function(ret){
+            $.get(prefix + '//api.map.baidu.com/location/ip?ak='+AK+'&coor=bd09ll',function(ret){
                 if(ret.status==0){
                     map.panTo(ret.content.point)
                 }
             },'json')
         }
-        $.get('http://www.fomsun.com:34567/home/temple/templelist',function(ret){
+        $.get(prefix + '//www.fomsun.com:34567/home/temple/templelist',function(ret){
             console.log(ret)
         },'json')
         
