@@ -11,13 +11,19 @@
 <style>
 *{box-sizing: border-box;-webkit-box-sizing: border-box;margin:0 auto;padding:0;line-height:1.75;}
 html,body{height:100%;overflow:hidden;}
-#app{position:absolute; -webkit-overflow-scrolling: tocu;z-index:1;top:0;left:0;bottom:0;right:0;background:#F8F8F8;padding:20px;}
-#app .item{padding-top:30px;}
+#app{position:absolute; -webkit-overflow-scrolling: touch;overflow:auto;z-index:1;top:0;left:0;bottom:0;right:0;background:#F8F8F8;}
+#app .cover{overflow:hidden;position:relative;}
+#app .cover .swiper-slide{padding:20px 20px 0 20px;}
+#app .cover .swiper-slide{padding:20px 20px 0 20px;}
+#app .cover .cover-img{width:100%;}
+#app .item{padding-top:30px;padding:0 20px;}
 #app .item h3{padding:10px 0;border-bottom:1px solid #dedede;color:#636365;}
 #app .item .content{font-size:14px;padding:10px 0;text-align: justify;word-break: break-all;color:#8a8989;}
-
+#app .item .content.bottom{text-align:right;}
 </style>
 <script src='./assets/zepto.min.js'></script>
+<script src='./assets/swiper/swiper.min.js'></script>
+<link rel="stylesheet" href="./assets/swiper/swiper.min.css">
 <script>
 function getParams(){
     var ps = {};
@@ -33,20 +39,38 @@ function getParams(){
 $(function(){
     $.get('http://www.fomsun.com:34567/home/temple/temleshow/'+getParams().id,function(ret){
         if(ret.ret == 1){
-            $('.description').text(ret.data.description)
-            $('.address').text(ret.data.address)
-            $('.phone').text(ret.data.phone)
+            var banners = ret.data.cover || [];
+            var covers = [];
+            for(var i=0,len=banners.length;i<len;i++){
+                covers.push('<div class="swiper-slide"><img src="'+banners[i]+'" class="cover-img"></div>');
+            }
+            $('.swiper-wrapper').html(covers.join(''));
+            $('.description').text(ret.data.description);
+            $('.address').text(ret.data.address);
+            $('.phone').text(ret.data.phone);
+            var config = {
+                autoplay:covers.length>1,
+                autoHeight:true
+            };
+            if(covers.length > 1) {
+                config['pagination'] = {
+                    el: '.swiper-pagination',
+                };
+                config['loop'] = true   
+            }
+            new Swiper('.cover',config)
         }else{
             alert(ret.info)
         }
-    },'json')
+    },'json');
 })
 </script>
 </head>
 <body>
     <div id="app">
         <div class="cover">
-            
+            <div class="swiper-wrapper"></div>
+            <div class="swiper-pagination"></div>   
         </div>
         <div class="item">
             <h3>寺院介绍</h3>
@@ -60,7 +84,9 @@ $(function(){
             <h3>电话</h3>
             <div class="content phone"></div>
         </div>
-        <div class="bottom"></div>
+        <div class="item">
+            <div class="content bottom"></div>
+        </div>
     </div>
 </body>
 </html>
