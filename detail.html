@@ -1,0 +1,66 @@
+<!DOCTYPE html>  
+<html>  
+<head>  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<meta name="author" content="xCss xioveliu@gmail.com">
+<title>地图</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection"> 
+<style>
+*{box-sizing: border-box;-webkit-box-sizing: border-box;margin:0 auto;padding:0;line-height:1.75;}
+html,body{height:100%;overflow:hidden;}
+#app{position:absolute; -webkit-overflow-scrolling: tocu;z-index:1;top:0;left:0;bottom:0;right:0;background:#F8F8F8;padding:20px;}
+#app .item{padding-top:30px;}
+#app .item h3{padding:10px 0;border-bottom:1px solid #dedede;color:#636365;}
+#app .item .content{font-size:14px;padding:10px 0;text-align: justify;word-break: break-all;color:#8a8989;}
+
+</style>
+<script src='./assets/zepto.min.js'></script>
+<script>
+function getParams(){
+    var ps = {};
+    var hs = window.location.href.split('?');
+    var qs = hs.length > 1 ? hs[1] : '';
+    qs = qs.split('&');
+    for(var i=0,len=qs.length;i<len;i++){
+        var q = (qs[i] || '').split('=');
+        q.length && (ps[q[0]] = q[1]);
+    }
+    return ps
+}
+$(function(){
+    $.get('http://www.fomsun.com:34567/home/temple/temleshow/'+getParams().id,function(ret){
+        if(ret.ret == 1){
+            $('.description').text(ret.data.description)
+            $('.address').text(ret.data.address)
+            $('.phone').text(ret.data.phone)
+        }else{
+            alert(ret.info)
+        }
+    },'json')
+})
+</script>
+</head>
+<body>
+    <div id="app">
+        <div class="cover">
+            
+        </div>
+        <div class="item">
+            <h3>寺院介绍</h3>
+            <div class="content description">减肥路上的房间卡了圣诞节疯狂拉升接电费卡时间的法律；阿斯加德看法是家里的房间爱思考的法律坚实的klsdajfklasjdfkljasklfjaskljfdskljfklasdjf沙路口附近俺是快乐的附件是否</div>
+        </div>
+        <div class="item">
+            <h3>地址</h3>
+            <div class="content address"></div>
+        </div>
+        <div class="item">
+            <h3>电话</h3>
+            <div class="content phone"></div>
+        </div>
+        <div class="bottom"></div>
+    </div>
+</body>
+</html>
