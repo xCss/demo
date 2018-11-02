@@ -23,17 +23,6 @@ html,body{height:100%;overflow:hidden;}
 <script src='./assets/zepto.min.js'></script>
 <script src='http://api.map.baidu.com/api?v=3.0&ak=Rjs1Sww9UtZdZ4NwC6jCXUPRWiOYavgX'></script>
 <script type="text/javascript">  
-    function getParams(){
-        var ps = {};
-        var hs = window.location.href.split('?');
-        var qs = hs.length > 1 ? hs[1] : '';
-        qs = qs.split('&');
-        for(var i=0,len=qs.length;i<len;i++){
-            var q = (qs[i] || '').split('=');
-            q.length && (ps[q[0]] = q[1]);
-        }
-        return ps
-    }
     var AK = 'Rjs1Sww9UtZdZ4NwC6jCXUPRWiOYavgX';
     var prefix = 'http:';
     var langs = {
@@ -47,7 +36,7 @@ html,body{height:100%;overflow:hidden;}
         'en':'Sorry, no relevant Temple information was searched.',
         'tb':'དགོངས་པ་མ་ཚོམ། མེད་འཚོལ་ཞིབ་བྱས་ནས་འབྲེལ་ཡོད་ཀྱི་དགོན་སྡེ་འི་ཆ་འཕྲིན། '
     };
-    
+
     var lang = langs[localStorage.getItem('LOCALE')] || 'zh-cn';
         
     $(function(){
