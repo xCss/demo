@@ -9,96 +9,21 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta content="black" name="apple-mobile-web-app-status-bar-style">
     <style>
-        * {
-            box-sizing: border-box;
-            -webkit-box-sizing: border-box;
-            margin: 0 auto;
-            padding: 0;
-            line-height: 1.75;
-            vertical-align: middle;
-        }
-
-        html,
-        body {
-            height: 100%;
-            overflow: hidden;
-        }
-
-        #app {
-            position: absolute;
-            -webkit-overflow-scrolling: touch;
-            overflow: auto;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            background: #F8F8F8;
-        }
-
-        #app .cover {
-            overflow: hidden;
-            position: relative;
-        }
-
-        #app .cover .swiper-slide {
-            padding: 20px 20px 0 20px;
-        }
-
-        #app .cover .swiper-slide {
-            padding: 20px 20px 0 20px;
-        }
-
-        #app .cover .cover-img {
-            width: 100%;
-        }
-
-        #app .item {
-            padding-top: 30px;
-            padding: 0 20px;
-        }
-
-        #app .item h3 {
-            padding: 10px 0;
-            border-bottom: 1px solid #dedede;
-            color: #636365;
-        }
-
-        #app .item .content {
-            font-size: 14px;
-            padding: 10px 0;
-            text-align: justify;
-            word-break: break-all;
-            color: #8a8989;
-        }
-
-        #app .item .content.bottom {
-            text-align: right;
-        }
-
-        #app .item .content.bottom .btn {
-            outline: none;
-            display: inline-block;
-            background: #AC8653;
-            border: none;
-            border-radius: 5px;
-            padding: 5px 10px;
-            font-size: 14px;
-            color: #fff;
-            text-decoration: none;
-        }
-
-        #app .item .content.bottom .btn.active {
-            background: #C6660D;
-        }
-
-        #app .item .content.bottom .btn img {
-            margin-right: 5px;
-        }
-
-        #app .item .content.bottom .btn+.btn {
-            margin-left: 15px;
-        }
+* {box-sizing: border-box;-webkit-box-sizing: border-box;margin: 0 auto;padding: 0;line-height: 1.75;vertical-align: middle;}
+html,body {height: 100%;overflow: hidden;}
+#app {position: absolute;-webkit-overflow-scrolling: touch;overflow: auto;z-index: 1;top: 0;left: 0;bottom: 0;right: 0;background: #F8F8F8;}
+#app .cover {overflow: hidden;position: relative;}
+#app .cover .swiper-slide {padding: 20px 20px 0 20px;}
+#app .cover .swiper-slide {padding: 20px 20px 0 20px;}
+#app .cover .cover-img {width: 100%;}
+#app .item {padding-top: 30px;padding: 0 20px;}
+#app .item h3 {padding: 10px 0;border-bottom: 1px solid #dedede;color: #636365;}
+#app .item .content {font-size: 14px;padding: 10px 0;text-align: justify;word-break: break-all;color: #8a8989;}
+#app .item .content.bottom {text-align: right;}
+#app .item .content.bottom .btn {outline: none;display: inline-block;background: #AC8653;border: none;border-radius: 5px;padding: 5px 10px;font-size: 14px;color: #fff;text-decoration: none;}
+#app .item .content.bottom .btn.active {background: #C6660D;}
+#app .item .content.bottom .btn img {margin-right: 5px;}
+#app .item .content.bottom .btn+.btn {margin-left: 15px;}
     </style>
     <script src='./assets/zepto.min.js'></script>
     <script src='./assets/swiper/swiper.min.js'></script>
@@ -122,7 +47,7 @@
         }
         var lang = langs[localStorage.getItem('LOCALE')] || 'zh-cn';
         $(function () {
-            $.get('http://www.fomsun.com:34567/home/temple/temleshow/' + getParams().id + '?lang='+lang, function (ret) {
+            $.get('//www.fomsun.com:34567/home/temple/temleshow/' + getParams().id + '?lang='+lang, function (ret) {
                 if (ret.ret == 1) {
                     var banners = ret.data.cover || [];
                     var covers = [];
