@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script type="text/javascript">
+// var audio = document.createElement('audio');
+//     audio.src = "http://luoo-mp3.kssws.ks-cdn.com/low/luoo/radio698/01.mp3";
+//     audio.play();
+document.addEventListener('readystatechange', function(){
+    var press = document.querySelector('.press');
+    var list = press.classList;
+    console.log(list);
+    if(list.toString().indexOf('q') > -1){
+        list.remove('w50');
+        list.add('w100');
+    }
+    if(list.toString().indexOf('q') < 0) list.add('q');
+});
+setTimeout(function(){document.querySelector('.press').classList.add('w50')},16);
+</script>
+<style type="text/css" >
+    .press{display:inline-block;height:3px;width:0;background:#000;-webkit-transition:  width .5s ease-in;
+    -o-transition:  width .5s ease-in;
+    transition:  width .5s ease-in;}
+    .w50{width:50%;}
+    .w100{width:100%;}
+    *{margin:0 auto;padding:0;}
+</style>
+</head>
+<body>
+    <span class="press" ></span>
+	<h1>Just have some demos, not special.</h1>
+    <img src="https://unsplash.it/1440/960/?random" alt="">
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tabs</title>
+    <script src='http://cdn.gbtags.com/jquery/1.11.1/jquery.min.js'></script>
+<style>
+*{line-height: 2;margin:0 auto;padding:0;-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;font-size: 12px;}
+a{text-decoration: none;color:#999;cursor:pointer;-webkit-transition: all .5s ease-out;
+-o-transition: all .5s ease-out;
+transition: all .5s ease-out;}
+a:hover{color:rgb(200,0,255);}
+
+.tabs{height:30px;font-size:0;margin-top:500px;}
+.tabs a{display:inline-block;width:20%;text-align:center;font-size:14px;position:relative;border-bottom:1px solid #dcdcdc;}
+.tabs a.active{background:#dcdcdc;color:#fff;}
+.tabs a:hover{background:#dcdcdc;color:#fff;}
+.tabs a+a:before{content:'';position:absolute;left:0;top:0;width:1px;background:#dcdcdc;height:100%;}
+.tabs-content>div{display:none;height:15000px;}
+.tabs-content>div.active{display:block;}
+</style>
+<script>
+$(function(){
+    $(document.body).on('click','.tabs a',function(){
+        var $this = $(this),
+            real = $this.attr('real');
+        $this.addClass('active').siblings('a').removeClass('active');
+        $('.tabs-content div[real='+real+']').addClass('active').siblings('div').removeClass('active');
+    });
+});
+</script>
+</head>
+<body>
+    <div class="content">1</div>
+    <div class="tabs" id="tab">
+        <a href="#tab " real=1 class="active">tab1</a>
+        <a href="#tab " real=2 >tab2</a>
+        <a href="#tab " real=3 >tab3</a>
+        <a href="#tab " real=4 >tab4</a>
+        <a href="#tab" real=5 >tab5</a>
+    </div>
+    <div class="tabs-content">
+        <div real=1 class="active">tabs => 1</div>
+        <div real=2 >tabs => 2</div>
+        <div real=3 >tabs => 3</div>
+        <div real=4 >tabs => 4</div>
+        <div real=5 >tabs => 5</div>
+    </div>
+</body>
+</html>

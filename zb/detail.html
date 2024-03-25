@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="author" content="xCss xioveliu@gmail.com">
+    <title>地图</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <style>
+* {box-sizing: border-box;-webkit-box-sizing: border-box;margin: 0 auto;padding: 0;line-height: 1.75;vertical-align: middle;}
+html,body {height: 100%;overflow: hidden;}
+#app {position: absolute;-webkit-overflow-scrolling: touch;overflow: auto;z-index: 1;top: 0;left: 0;bottom: 0;right: 0;background: #F8F8F8;}
+#app .cover {overflow: hidden;position: relative;}
+#app .cover .swiper-slide {padding: 20px 20px 0 20px;}
+#app .cover .swiper-slide {padding: 20px 20px 0 20px;}
+#app .cover .cover-img {width: 100%;}
+#app .item {padding-top: 30px;padding: 0 20px;}
+#app .item h3 {padding: 10px 0;border-bottom: 1px solid #dedede;color: #636365;}
+#app .item .content {font-size: 14px;padding: 10px 0;text-align: justify;word-break: break-all;color: #8a8989;}
+#app .item .content.bottom {text-align: right;}
+#app .item .content.bottom .btn {outline: none;display: inline-block;background: #AC8653;border: none;border-radius: 5px;padding: 5px 10px;font-size: 14px;color: #fff;text-decoration: none;}
+#app .item .content.bottom .btn.active {background: #C6660D;}
+#app .item .content.bottom .btn img {margin-right: 5px;}
+#app .item .content.bottom .btn+.btn {margin-left: 15px;}
+    </style>
+    <script src='./assets/zepto.min.js'></script>
+    <script src='./assets/swiper/swiper.min.js'></script>
+    <link rel="stylesheet" href="./assets/swiper/swiper.min.css">
+    <script>
+        function getParams() {
+            var ps = {};
+            var hs = window.location.href.split('?');
+            var qs = hs.length > 1 ? hs[1] : '';
+            qs = qs.split('&');
+            for (var i = 0, len = qs.length; i < len; i++) {
+                var q = (qs[i] || '').split('=');
+                q.length && (ps[q[0]] = q[1]);
+            }
+            return ps
+        }
+        var langs = {
+            'zh-CN':'zh-cn',
+            'en-US':'en',
+            'bo-CN':'tb'
+        }
+        var lang = langs[localStorage.getItem('LOCALE')] || 'zh-cn';
+        $(function () {
+            $.get('//www.fomsun.com:34567/home/temple/temleshow/' + getParams().id + '?lang='+lang, function (ret) {
+                if (ret.ret == 1) {
+                    var banners = ret.data.cover || [];
+                    var covers = [];
+                    for (var i = 0, len = banners.length; i < len; i++) {
+                        covers.push('<div class="swiper-slide"><img src="' + banners[i] +
+                            '" class="cover-img"></div>');
+                    }
+                    $('.swiper-wrapper').html(covers.join(''));
+                    $('.description').text(ret.data.description);
+                    $('.address').text(ret.data.address);
+                    $('.phone').text(ret.data.phone);
+                    var config = {
+                        autoplay: covers.length > 1,
+                        autoHeight: true
+                    };
+                    if (covers.length > 1) {
+                        config['pagination'] = {
+                            el: '.swiper-pagination',
+                        };
+                        config['loop'] = true
+                    }
+                    new Swiper('.cover', config);
+                    $(document).off('click touchstart','.line').on('click touchstart','.line',function(e){
+                        openMapApp(ret.data.jingweidu.split(',')[0],ret.data.jingweidu.split(',')[1],ret.data.address);
+                    })
+                } else {
+                    alert(ret.info)
+                }
+            }, 'json');
+
+
+
+            //获取浏览器信息
+            var browser = {
+                ua: function () {
+                    var u = navigator.userAgent;
+                    var isChrome = u.match(/Chrome\/([\d.]+)/) ||
+                        u.match(/CriOS\/([\d.]+)/);
+                    var isAndroid = u.match(/(Android);?[\s\/]+([\d.]+)?/);
+                    var iosVersion = function () {
+                        if (/iP(hone|od|ad)/.test(navigator.platform)) {
+                            var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
+                            return [parseInt(v[1], 10), parseInt(v[2], 10),
+                                parseInt(v[3] || 0, 10)
+                            ];
+                        }
+                    }();
+                    var chromeVersion = function () {
+                        var chrome = navigator.userAgent.match(/Chrome\/(\d+)\./);
+                        if (chrome) {
+                            return parseInt(chrome[1], 10);
+                        }
+                    }();
+                    var ios9 = iosVersion && iosVersion[0] >= 9;
+                    var chrome18 = isChrome && isAndroid && chromeVersion &&
+                        chromeVersion > 18;
+                    return { // 移动终端浏览器版本信息
+                        trident: u.indexOf('Trident') > -1, // IE内核
+                        presto: u.indexOf('Presto') > -1, // opera内核
+                        webKit: u.indexOf('AppleWebKit') > -1, // 苹果、谷歌内核
+                        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, // 火狐内核
+                        mobile: !!u.match(/AppleWebKit.*Mobile.*/), // 是否为移动终端
+                        iOS: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), // ios终端
+                        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, // android终端或uc浏览器
+                        iPhone: u.indexOf('iPhone') > -1, // 是否为iPhone或者QQHD浏览器
+                        iPad: u.indexOf('iPad') > -1, // 是否iPad
+                        webApp: u.indexOf('Safari') == -1, // 是否web应该程序，没有头部与底部
+                        weChat: u.indexOf('MicroMessenger') > -1,
+                        UC: u.indexOf('UCBrowser') > -1,
+                        u3: u.indexOf('U3') > -1,
+                        chrome: u.indexOf('Chrome') > -1,
+                        windowsPhone: u.indexOf("Windows Phone") > -1,
+                        samsung: u.indexOf("Samsung") > -1,
+                        QQ: (u.match(/\sQQ/i) != null ? u.match(/\sQQ/i).toLowerCase() == " qq" :
+                            false),
+                        isChrome: isChrome,
+                        isAndroid: isAndroid,
+                        iosVersion: iosVersion,
+                        chromeVersion: chromeVersion,
+                        ios9: ios9,
+                        chrome18: chrome18
+                    };
+                }()
+            }
+            var ua = browser.ua;
+
+            // 打开地图App，开始导航
+            function openMapApp(lng, lat, addr) {
+                // 地图uri api数组
+                var uri = new Array();
+                if (ua.android) {
+                    // 百度地图uri api
+                    uri[0] = "bdapp://map/navi?location=" + lng + "," + lat + "&query=" +
+                        addr;
+                    // 高德地图uri api
+                    uri[1] = "androidamap://navi?sourceApplication=xlwx&poiname=" + addr +
+                        "&lat=" + bd_decrypt(lng,lat).lat + "&lon=" + bd_decrypt(lng,lat).lng + "&dev=1&style=2";
+                    // 腾讯地图uri api
+                    uri[2] = "qqmap://map/marker?marker=coord:" + bd_decrypt(lng,lat).lng + "," + bd_decrypt(lng,lat).lat +
+                        ";title:" + addr + "&referer=xlwx";
+                } else if (ua.iOS) {
+                    // 百度地图uri api
+                    uri[0] = "baidumap://map/navi?location=" + lng + "," + lat + "&query=" +
+                        addr;
+                    // 高德地图uri api
+                    uri[1] = "iosamap://navi?sourceApplication=xlwx&poiname=" + addr +
+                        "&lat=" + bd_decrypt(lng,lat).lat + "&lon=" + bd_decrypt(lng,lat).lng + "&dev=1&style=2";
+                    // 腾讯地图uri api
+                    uri[2] = "qqmap://map/marker?marker=coord:" + bd_decrypt(lng,lat).lng + "," + bd_decrypt(lng,lat).lat +
+                        ";title:" + addr + "&referer=xlwx";
+                    // 苹果地图uri api
+                    uri[3] = "http://maps.apple.com/?sll=" + lng + "," + lat + "&address=" +
+                        addr;
+                }
+                //调用uri	
+                if (uri.length == 0) {
+                    return;
+                }
+                window.location.href = uri[0];
+                //启动定时器time1
+                var time1 = setTimeout(function () {
+                    // 若启动应用，则js会被中断较长时间，超出此范围
+                    window.location.href = uri[1];
+                }, 2000);
+                //启动定时器time2
+                var time2 = setTimeout(function () {
+                    // 若启动应用，则js会被中断较长时间，超出此范围
+                    window.location.href = uri[2];
+                }, 4000);
+                //清除定时器
+                window.beforeunload = function () {
+                    if (time1 != null) {
+                        clearTimeout(time1);
+                    }
+                    if (time2 != null) {
+                        clearTimeout(time2);
+                    }
+                }
+                window.pagehide = function () {
+                    if (time1 != null) {
+                        clearTimeout(time1);
+                    }
+                    if (time2 != null) {
+                        clearTimeout(time2);
+                    }
+                }
+                window.onblur = function () {
+                    if (time1 != null) {
+                        clearTimeout(time1);
+                    }
+                    if (time2 != null) {
+                        clearTimeout(time2);
+                    }
+                }
+            }
+
+            //百度坐标转高德（传入经度、纬度）
+            function bd_decrypt(bd_lng, bd_lat) {
+                bd_lng = Number(bd_lng);
+                bd_lat = Number(bd_lat);
+                var X_PI = Math.PI * 3000.0 / 180.0;
+                var x = bd_lng - 0.0065;
+                var y = bd_lat - 0.006;
+                var z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * X_PI);
+                var theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * X_PI);
+                var gg_lng = z * Math.cos(theta);
+                var gg_lat = z * Math.sin(theta);
+                return {lng: gg_lng, lat: gg_lat}
+            }
+
+        })
+    </script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="cover">
+            <div class="swiper-wrapper"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+        <div class="item">
+            <h3>寺院介绍</h3>
+            <div class="content description"></div>
+        </div>
+        <div class="item">
+            <h3>地址</h3>
+            <div class="content address"></div>
+        </div>
+        <div class="item">
+            <h3>电话</h3>
+            <div class="content phone"></div>
+        </div>
+        <div class="item">
+            <div class="content bottom">
+                <button class="btn line"> <img width=20 src='./assets/icons/line.png'>路线</button>
+                <button class="btn active"> <img width=20 src='./assets/icons/info.png'>详情</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

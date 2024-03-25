@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>三毛摄影首页</title>
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<style>
+		*{margin:0 auto;padding:0;font-size:12px;font-family:Menlo,Monaco,Consolas,"Courier New",monospace;outline: none;}
+		*:before,*:after{box-sizing: border-box;display: inline-block;}
+		*:after{clear:both;}
+		.serif{font-family:Georgia, Times, 'Times New Roman', serif;}
+		.orange{background:#FFCD02;}
+		ul,li{list-style: none;padding:0;}
+		.nav{height:80px;background:#FFFFFF;min-width:1366px;border-bottom: 1px solid #E0E0E0;}
+		.nav .logo{background:url('images/logo.png') center no-repeat;}
+		.nav .logo,.nav .control{float:left;width:49%;height:100%;}
+		.nav .control .is,.call{cursor:pointer;float:left;height:80px;line-height:80px;color:#757285;width:95px;padding:0;margin:0;text-align: center;}
+		.nav .control .is i{vertical-align:middle;}
+		.nav .control .active,.nav .control .is:hover{background:#CA0000;color:#fff;}
+		.nav .control .width{width:143px;font-size:16px;}
+		.nav .control .special:hover .wrapper{display:block;}
+		.nav .control .wrapper{/*display:none;*/box-shadow:0 1px 15px #000;min-width:1366px;left:0;position:absolute;width:100%;height:80px;background:#CA0000;}
+		.nav .control .wrapper .items{position:relative;color:#fff;vertical-align:middle; text-align:left;width:20%;height:80px;float:left;line-height:2;}
+		.nav .control .wrapper .items:hover{color:#FFCD02;background:#820D0D;height:81px;}
+		.nav .control .wrapper .item:hover .children{display:block;}
+		.nav .control .wrapper .items i{width:45%;line-height:80px;text-align:right;height:100%;}
+		.nav .control .wrapper .items h1{margin-left:5%;margin-top:17px;line-height:20px;width:50%;height:80px;float:right;}
+		.nav .control .wrapper .items .children{z-index:1;display:none;position:absolute;background:#820D0D;left:0;width:100%;line-height:40px;}
+		.nav .control .wrapper .items .children li{width:100px;text-align:center;color:#fff;}
+		.nav .control .wrapper .items .children li:hover{color:#ffcd02;}
+	</style>
+</head>
+<body>
+	<div class="nav">
+		<div class="logo"></div>
+		<div class="control">
+			<ul>
+				<li class="is special">
+					<i class="fa fa-list-ul fa-2x"></i>
+					<ul class="wrapper">
+						<li class="items item"><i class="fa fa-puzzle-piece fa-4x"></i>
+							<h1>About<br>了解三毛摄影</h1>
+							<ul class="children">
+								<li>景点介绍</li>
+								<li>品牌文化</li>
+								<li>联系我们</li>
+								<li>加入我们</li>
+								<li>亿万好评</li>
+							</ul>
+						</li>
+						<li class="items item"><i class="fa fa-server fa-4x"></i>
+							<h1>Brand<br>三毛品牌</h1>
+							<ul class="children">
+								<li>艾汐时光</li>
+								<li>艾汐美美</li>
+								<li>三毛摄影</li>
+								<li>艾汐皇后</li>
+								<li>萨维尔</li>
+							</ul>
+						</li>
+						<li class="items item"><i class="fa fa-picture-o fa-4x"></i>
+							<h1>Work<br>作品大赏</h1>
+							<ul class="children">
+								<li>样片大赏</li>
+								<li>风格鉴赏</li>
+								<li>每日客片</li>
+								<li>客片大赏</li>
+								<li>艺术写真</li>
+							</ul>
+						</li>
+						<li class="items item"><i class="fa fa-pencil-square-o fa-4x"></i>
+							<h1>Price<br>服务报价</h1>
+							<ul class="children">
+								<li>服务报价</li>
+								<li>旅拍团购</li>
+								<li>在线预约</li>
+							</ul>
+						</li>
+						<li class="items item"><i class="fa fa-newspaper-o fa-4x"></i>
+							<h1>News<br>最新资讯</h1>
+							<ul class="children">
+								<li>美丽讲堂</li>
+								<li>热门专题</li>
+								<li>活动印花</li>
+								<li>热门推荐</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li class="is"><i class="fa fa-qq fa-2x"></i></li>
+				<li class="is"><i class="fa fa-weibo fa-2x"></i></li>
+				<li class="is"><i class="fa fa-weixin fa-2x"></i></li>
+				<li class="is width orange"><i class="fa fa-calendar fa-2x"></i>&nbsp;每日客片大赏</li>
+				<li class="call width serif"><i class="fa fa-phone-square fa-2x"></i>&nbsp;023-62626373</li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>
